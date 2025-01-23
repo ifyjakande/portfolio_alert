@@ -2,18 +2,18 @@ name: Analytics Monitor
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
-  workflow_dispatch:      # Manual trigger
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
 jobs:
   monitor:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v2
     
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v2
       with:
         python-version: '3.x'
     
@@ -24,7 +24,7 @@ jobs:
     
     - name: Create credentials file
       run: |
-        echo "${{ secrets.GOOGLE_CREDENTIALS }}" > credentials.json
+        echo '${{ secrets.GOOGLE_CREDENTIALS }}' > credentials.json
       
     - name: Run analytics monitor
       env:
