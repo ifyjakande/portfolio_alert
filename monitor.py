@@ -10,7 +10,6 @@ from google.analytics.data_v1beta.types import (
 from slack_sdk import WebClient
 from datetime import datetime
 
-# Set up logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
@@ -52,14 +51,22 @@ def process_data(report):
 def send_notification(visitor_data):
     logger.debug("Sending notifications")
     slack_client = WebClient(token=SLACK_TOKEN)
-    for country, count in visitor_data.items():
-        if count > 0:
-            message = f"🌍 {count} active visitor(s) from {country} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-            logger.debug(f"Sending message: {message}")
-            slack_client.chat_postMessage(
-                channel=SLACK_CHANNEL,
-                text=message
-            )
+    if not visitor_data:
+        message = f"📊 No active visitors from monitored countries at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        logger.debug(f"Sending message: {message}")
+        slack_client.chat_postMessage(
+            channel=SLACK_CHANNEL,
+            text=message
+        )
+    else:
+        for country, count in visitor_data.items():
+            if count > 0:
+                message = f"🌍 {count} active visitor(s) from {country} at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+                logger.debug(f"Sending message: {message}")
+                slack_client.chat_postMessage(
+                    channel=SLACK_CHANNEL,
+                    text=message
+                )
 
 def main():
     try:
