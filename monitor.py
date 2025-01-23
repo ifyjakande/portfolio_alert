@@ -10,8 +10,8 @@ from slack_sdk import WebClient
 from datetime import datetime
 
 # Configuration
-PROPERTY_ID = os.environ['PROPERTY_ID']
-SLACK_TOKEN = os.environ['SLACK_TOKEN']
+PROPERTY_ID = os.getenv('PROPERTY_ID')
+SLACK_TOKEN = os.getenv('SLACK_TOKEN')
 SLACK_CHANNEL = '#portfolio-alert'
 COUNTRIES_TO_MONITOR = ['United States', 'United Kingdom', 'Canada', 'Nigeria']
 
